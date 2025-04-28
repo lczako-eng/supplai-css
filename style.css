@@ -21,4 +21,48 @@ body {
     text-decoration: none;
     display: inline-block;
   }
+  /* SupplAi Layout Styling */
+
+.supplai-container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    text-align: center;
+  }
   
+  .search-section input {
+    padding: 10px;
+    width: 70%;
+    margin-right: 10px;
+    font-size: 16px;
+  }
+  
+  .search-section button {
+    padding: 10px 15px;
+    margin-top: 10px;
+    margin-right: 5px;
+    font-size: 16px;
+    border-radius: 8px;
+    background-color: #0077cc;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .suggestions-section {
+    margin-top: 30px;
+    text-align: left;
+  }
+  .suggestion-item {
+    padding: 8px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+  }
+  
+  .suggestion-item:hover {
+    background-color: #f0f0f0;
+  }
+    
