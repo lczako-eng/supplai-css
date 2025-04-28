@@ -1,0 +1,24 @@
+/* SupplAi Basic Styling */
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f7fa;
+    margin: 0;
+    padding: 0;
+  }
+  
+  h1 {
+    color: #0055aa;
+    text-align: center;
+    margin-top: 50px;
+  }
+  
+  .button {
+    background-color: #0077cc;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    display: inline-block;
+  }
+  
