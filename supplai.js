@@ -36,10 +36,8 @@ document.addEventListener('DOMContentLoaded', function () {
           const userLat = position.coords.latitude;
           const userLng = position.coords.longitude;
   
-          // Recenter map on user location
           map.setView([userLat, userLng], 10);
   
-          // Optional marker for user's location
           L.marker([userLat, userLng])
             .addTo(map)
             .bindPopup("📍 You are here")
@@ -72,6 +70,16 @@ document.addEventListener('DOMContentLoaded', function () {
     const categorySelect = document.getElementById('categoryFilter');
     const locationInput = document.getElementById('locationInput');
   
+    // 🧠 SupplAi AI Logic – Smart keyword matching
+    function smartMatch(query, items) {
+      const keywords = query.toLowerCase().split(/\s+/);
+      return items.filter(item => {
+        const name = item.name.toLowerCase();
+        const category = item.category.toLowerCase();
+        return keywords.some(k => name.includes(k) || category.includes(k));
+      });
+    }
+  
     // ✏️ Typing-Based Suggestions
     searchInput.addEventListener('input', function () {
       const query = searchInput.value.toLowerCase();
@@ -80,8 +88,7 @@ document.addEventListener('DOMContentLoaded', function () {
       suggestionsSection.innerHTML = '';
   
       if (query.length > 0) {
-        const filtered = itemsDatabase.filter(item =>
-          item.name.toLowerCase().includes(query) &&
+        const filtered = smartMatch(query, itemsDatabase).filter(item =>
           (selectedCategory === 'All' || item.category === selectedCategory) &&
           (userLocation === '' || item.location.toLowerCase() === userLocation)
         );
