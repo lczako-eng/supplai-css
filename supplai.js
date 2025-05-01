@@ -1,4 +1,21 @@
-document.addEventListener('DOMContentLoaded', function () {
+// 🔗 Real GPT-4 AI Connection
+function askSupplAi(prompt) {
+    fetch("/.netlify/functions/supplai-gpt", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message: prompt })
+    })
+    .then(res => res.json())
+    .then(data => {
+      const assistantBox = document.getElementById('supplai-assistant');
+      assistantBox.innerHTML = `<strong>SupplAi:</strong> ${data.reply}`;
+    })
+    .catch(err => {
+      console.error("GPT fetch failed:", err);
+    });
+  }
+  
+  document.addEventListener('DOMContentLoaded', function () {
     console.log('✅ SupplAi script loaded');
   
     const itemsDatabase = [
@@ -29,15 +46,12 @@ document.addEventListener('DOMContentLoaded', function () {
       attribution: '&copy; OpenStreetMap contributors'
     }).addTo(map);
   
-    // 🌍 Auto-Detect User Location
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const userLat = position.coords.latitude;
           const userLng = position.coords.longitude;
-  
           map.setView([userLat, userLng], 10);
-  
           L.marker([userLat, userLng])
             .addTo(map)
             .bindPopup("📍 You are here")
@@ -47,8 +61,6 @@ document.addEventListener('DOMContentLoaded', function () {
           console.warn("Geolocation error:", error.message);
         }
       );
-    } else {
-      console.warn("Geolocation is not supported by this browser.");
     }
   
     function updateMapMarkers(filteredItems) {
@@ -70,7 +82,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const categorySelect = document.getElementById('categoryFilter');
     const locationInput = document.getElementById('locationInput');
   
-    // 🧠 SupplAi AI Logic – Smart keyword matching
     function smartMatch(query, items) {
       const keywords = query.toLowerCase().split(/\s+/);
       return items.filter(item => {
@@ -80,9 +91,9 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     }
   
-    // ✏️ Typing-Based Suggestions
     searchInput.addEventListener('input', function () {
       const query = searchInput.value.toLowerCase();
+      askSupplAi(query);
       const selectedCategory = categorySelect ? categorySelect.value : 'All';
       const userLocation = locationInput ? locationInput.value.trim().toLowerCase() : '';
       suggestionsSection.innerHTML = '';
@@ -137,7 +148,6 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     });
   
-    // 🎙️ Voice Search
     if ('webkitSpeechRecognition' in window) {
       const recognition = new webkitSpeechRecognition();
       recognition.lang = 'en-US';
@@ -164,7 +174,6 @@ document.addEventListener('DOMContentLoaded', function () {
       voiceButton.textContent = '🎙️ Not Supported';
     }
   
-    // 🔮 Random Suggestion Button
     if (randomButton) {
       randomButton.addEventListener('click', () => {
         const randomItem = itemsDatabase[Math.floor(Math.random() * itemsDatabase.length)];
@@ -173,7 +182,6 @@ document.addEventListener('DOMContentLoaded', function () {
       });
     }
   
-    // 🖱️ Make suggestion items clickable
     suggestionsSection.addEventListener('click', (e) => {
       if (e.target.classList.contains('suggestion-item')) {
         const selectedItem = e.target.textContent;
