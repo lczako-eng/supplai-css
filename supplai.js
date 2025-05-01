@@ -12,7 +12,6 @@ document.addEventListener('DOMContentLoaded', function () {
       { name: "Screwdriver Set", category: "Tools", location: "Ottawa" },
       { name: "Socket Wrench", category: "Tools", location: "Calgary" },
       { name: "Hammer", category: "Tools", location: "Toronto" }
-      // Add more items with location as needed...
     ];
   
     const cityCoords = {
@@ -29,6 +28,30 @@ document.addEventListener('DOMContentLoaded', function () {
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; OpenStreetMap contributors'
     }).addTo(map);
+  
+    // 🌍 Auto-Detect User Location
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const userLat = position.coords.latitude;
+          const userLng = position.coords.longitude;
+  
+          // Recenter map on user location
+          map.setView([userLat, userLng], 10);
+  
+          // Optional marker for user's location
+          L.marker([userLat, userLng])
+            .addTo(map)
+            .bindPopup("📍 You are here")
+            .openPopup();
+        },
+        (error) => {
+          console.warn("Geolocation error:", error.message);
+        }
+      );
+    } else {
+      console.warn("Geolocation is not supported by this browser.");
+    }
   
     function updateMapMarkers(filteredItems) {
       map.eachLayer(layer => {
