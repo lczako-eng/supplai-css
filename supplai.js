@@ -70,3 +70,12 @@ if (randomButton) {
     searchInput.dispatchEvent(new Event('input'));
   });
 }
+// 🖱️ Make suggestion items clickable
+suggestionsSection.addEventListener('click', (e) => {
+    if (e.target.classList.contains('suggestion-item')) {
+      const selectedItem = e.target.textContent;
+      searchInput.value = selectedItem;
+      searchInput.dispatchEvent(new Event('input'));
+    }
+  });
+  
