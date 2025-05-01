@@ -5,6 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SupplAi Test</title>
   <link rel="stylesheet" href="style.css" />
+  <!-- Leaflet Map Library -->
+<link
+rel="stylesheet"
+href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+/>
+<script
+src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+></script>
+
 </head>
 
 <body>
@@ -27,7 +36,11 @@
         <option value="Kitchen">Kitchen</option>
       </select>
     </div>
-
+    <div class="location-filter" style="margin-bottom: 20px; text-align: center;">
+        <label for="locationInput">Your Location:</label>
+        <input type="text" id="locationInput" placeholder="e.g. Toronto" />
+      </div>
+      
     <!-- Search Bar + Buttons -->
     <div class="search-section">
       <input type="text" id="searchInput" placeholder="🔍 Search for anything..." />
@@ -40,6 +53,7 @@
       <!-- Suggested items will appear here -->
     </div>
   </div>
+  <div id="map" style="height: 400px; margin-top: 30px;"></div>
 
   <!-- Link to JavaScript -->
   <script src="supplai.js"></script>

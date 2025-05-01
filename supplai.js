@@ -2,78 +2,65 @@ document.addEventListener('DOMContentLoaded', function () {
     console.log('✅ SupplAi script loaded');
   
     const itemsDatabase = [
-      // Furniture
-      { name: "Blue Chair", category: "Furniture" },
-      { name: "Red Table", category: "Furniture" },
-      { name: "Green Sofa", category: "Furniture" },
-      { name: "Wooden Desk", category: "Furniture" },
-      { name: "Bookshelf", category: "Furniture" },
-      // Tools
-      { name: "Electric Drill", category: "Tools" },
-      { name: "Toolbox", category: "Tools" },
-      { name: "Screwdriver Set", category: "Tools" },
-      { name: "Socket Wrench", category: "Tools" },
-      { name: "Hammer", category: "Tools" },
-      // Outdoors
-      { name: "Bicycle", category: "Outdoors" },
-      { name: "Backpack", category: "Outdoors" },
-      { name: "Tent", category: "Outdoors" },
-      { name: "Sleeping Bag", category: "Outdoors" },
-      { name: "Camping Stove", category: "Outdoors" },
-      // Electronics
-      { name: "Laptop", category: "Electronics" },
-      { name: "Smartphone", category: "Electronics" },
-      { name: "Wireless Headphones", category: "Electronics" },
-      { name: "Bluetooth Speaker", category: "Electronics" },
-      { name: "Power Bank", category: "Electronics" },
-      // Hardware
-      { name: "Nails - 2 inch", category: "Hardware" },
-      { name: "Drywall Screws", category: "Hardware" },
-      { name: "Paint Roller", category: "Hardware" },
-      { name: "Wall Anchors", category: "Hardware" },
-      { name: "Stud Finder", category: "Hardware" },
-      // Beauty
-      { name: "Lipstick - Coral", category: "Beauty" },
-      { name: "Foundation - Beige", category: "Beauty" },
-      { name: "Mascara - Black", category: "Beauty" },
-      { name: "Eyeliner Pen", category: "Beauty" },
-      { name: "Makeup Remover Wipes", category: "Beauty" },
-      // Health
-      { name: "Vitamin C 1000mg", category: "Health" },
-      { name: "Ibuprofen 200mg", category: "Health" },
-      { name: "Bandage Roll", category: "Health" },
-      { name: "Hand Sanitizer", category: "Health" },
-      { name: "Thermometer - Digital", category: "Health" },
-      // Cleaning
-      { name: "Dish Soap", category: "Cleaning" },
-      { name: "Multi-surface Cleaner", category: "Cleaning" },
-      { name: "Sponges - Pack of 3", category: "Cleaning" },
-      { name: "Mop and Bucket", category: "Cleaning" },
-      { name: "Glass Cleaner", category: "Cleaning" },
-      // Kitchen
-      { name: "Frying Pan - 12in", category: "Kitchen" },
-      { name: "Chef Knife", category: "Kitchen" },
-      { name: "Cutting Board", category: "Kitchen" },
-      { name: "Measuring Cups", category: "Kitchen" },
-      { name: "Microwave Oven", category: "Kitchen" }
+      { name: "Blue Chair", category: "Furniture", location: "Toronto" },
+      { name: "Red Table", category: "Furniture", location: "Toronto" },
+      { name: "Green Sofa", category: "Furniture", location: "Ottawa" },
+      { name: "Wooden Desk", category: "Furniture", location: "Montreal" },
+      { name: "Bookshelf", category: "Furniture", location: "Vancouver" },
+      { name: "Electric Drill", category: "Tools", location: "Toronto" },
+      { name: "Toolbox", category: "Tools", location: "Montreal" },
+      { name: "Screwdriver Set", category: "Tools", location: "Ottawa" },
+      { name: "Socket Wrench", category: "Tools", location: "Calgary" },
+      { name: "Hammer", category: "Tools", location: "Toronto" }
+      // Add more items with location as needed...
     ];
+  
+    const cityCoords = {
+      Toronto: [43.65107, -79.347015],
+      Ottawa: [45.4215, -75.6972],
+      Montreal: [45.5017, -73.5673],
+      Vancouver: [49.2827, -123.1207],
+      Calgary: [51.0447, -114.0719],
+      Edmonton: [53.5461, -113.4938],
+      Halifax: [44.6488, -63.5752]
+    };
+  
+    const map = L.map('map').setView([43.65107, -79.347015], 4);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+  
+    function updateMapMarkers(filteredItems) {
+      map.eachLayer(layer => {
+        if (layer instanceof L.Marker) map.removeLayer(layer);
+      });
+      filteredItems.forEach(item => {
+        const coords = cityCoords[item.location];
+        if (coords) {
+          L.marker(coords).addTo(map).bindPopup(`${item.name}<br><b>${item.location}</b>`);
+        }
+      });
+    }
   
     const searchInput = document.getElementById('searchInput');
     const suggestionsSection = document.getElementById('suggestions');
     const voiceButton = document.getElementById('voiceSearchButton');
     const randomButton = document.getElementById('randomSuggestButton');
     const categorySelect = document.getElementById('categoryFilter');
+    const locationInput = document.getElementById('locationInput');
   
     // ✏️ Typing-Based Suggestions
     searchInput.addEventListener('input', function () {
       const query = searchInput.value.toLowerCase();
       const selectedCategory = categorySelect ? categorySelect.value : 'All';
+      const userLocation = locationInput ? locationInput.value.trim().toLowerCase() : '';
       suggestionsSection.innerHTML = '';
   
       if (query.length > 0) {
         const filtered = itemsDatabase.filter(item =>
           item.name.toLowerCase().includes(query) &&
-          (selectedCategory === 'All' || item.category === selectedCategory)
+          (selectedCategory === 'All' || item.category === selectedCategory) &&
+          (userLocation === '' || item.location.toLowerCase() === userLocation)
         );
   
         if (filtered.length > 0) {
@@ -82,7 +69,7 @@ document.addEventListener('DOMContentLoaded', function () {
             div.classList.add('suggestion-item');
   
             const textSpan = document.createElement('span');
-            textSpan.textContent = item.name;
+            textSpan.textContent = `${item.name} (${item.location})`;
   
             const heart = document.createElement('span');
             heart.textContent = '🤍';
@@ -111,8 +98,11 @@ document.addEventListener('DOMContentLoaded', function () {
             div.appendChild(heart);
             suggestionsSection.appendChild(div);
           });
+  
+          updateMapMarkers(filtered);
         } else {
           suggestionsSection.innerHTML = '<div>No matches found.</div>';
+          updateMapMarkers([]);
         }
       }
     });
@@ -139,7 +129,6 @@ document.addEventListener('DOMContentLoaded', function () {
       recognition.addEventListener('end', () => {
         voiceButton.textContent = '🎙️ Voice Search';
       });
-  
     } else {
       voiceButton.disabled = true;
       voiceButton.textContent = '🎙️ Not Supported';
