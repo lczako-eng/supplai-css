@@ -21,11 +21,45 @@ searchInput.addEventListener('input', function () {
     const filtered = itemsDatabase.filter(item =>
       item.toLowerCase().includes(query)
     );
+
     if (filtered.length > 0) {
       filtered.forEach(item => {
         const div = document.createElement('div');
-        div.textContent = item;
         div.classList.add('suggestion-item');
+
+        // Text span
+        const textSpan = document.createElement('span');
+        textSpan.textContent = item;
+
+        // Heart icon
+        const heart = document.createElement('span');
+        heart.textContent = '🤍';
+        heart.style.cursor = 'pointer';
+        heart.style.marginLeft = '10px';
+
+        // Load favorites from localStorage
+        const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+        if (favorites.includes(item)) {
+          heart.textContent = '❤️';
+        }
+
+        // Heart click logic
+        heart.addEventListener('click', (e) => {
+          e.stopPropagation();
+          let favs = JSON.parse(localStorage.getItem('favorites') || '[]');
+          if (favs.includes(item)) {
+            favs = favs.filter(f => f !== item);
+            heart.textContent = '🤍';
+          } else {
+            favs.push(item);
+            heart.textContent = '❤️';
+          }
+          localStorage.setItem('favorites', JSON.stringify(favs));
+        });
+
+        // Append to div
+        div.appendChild(textSpan);
+        div.appendChild(heart);
         suggestionsSection.appendChild(div);
       });
     } else {
@@ -70,12 +104,12 @@ if (randomButton) {
     searchInput.dispatchEvent(new Event('input'));
   });
 }
+
 // 🖱️ Make suggestion items clickable
 suggestionsSection.addEventListener('click', (e) => {
-    if (e.target.classList.contains('suggestion-item')) {
-      const selectedItem = e.target.textContent;
-      searchInput.value = selectedItem;
-      searchInput.dispatchEvent(new Event('input'));
-    }
-  });
-  
+  if (e.target.classList.contains('suggestion-item')) {
+    const selectedItem = e.target.textContent;
+    searchInput.value = selectedItem;
+    searchInput.dispatchEvent(new Event('input'));
+  }
+});
