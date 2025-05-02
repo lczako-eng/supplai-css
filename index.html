@@ -12,46 +12,59 @@
 </head>
 
 <body>
-  <div class="supplai-container">
+    <header class="main-header">
+        <div class="branding">
+          <span class="logo-text">SupplAi</span>
+          <span class="powered-by">Powered by SupplAi</span>
+        </div>
+        <button id="toggleDarkMode">🌓 Toggle Mode</button>
+      </header>
+      
+    <div class="supplai-container">
     <h1>Welcome to SupplAi</h1>
 
-    <!-- Category Filter -->
-    <div class="category-filter" style="margin-bottom: 20px; text-align: center;">
-      <label for="categoryFilter">Filter by Category:</label>
-      <select id="categoryFilter">
-        <option value="All">All Categories</option>
-        <option value="Furniture">Furniture</option>
-        <option value="Tools">Tools</option>
-        <option value="Outdoors">Outdoors</option>
-        <option value="Electronics">Electronics</option>
-        <option value="Hardware">Hardware</option>
-        <option value="Beauty">Beauty</option>
-        <option value="Health">Health</option>
-        <option value="Cleaning">Cleaning</option>
-        <option value="Kitchen">Kitchen</option>
-      </select>
+    <!-- Filters + Search Section in Row -->
+    <div class="filters-wrapper">
+      <!-- Category Filter -->
+      <div class="filter-item">
+        <label for="categoryFilter">Filter by Category:</label>
+        <select id="categoryFilter">
+          <option value="All">All Categories</option>
+          <option value="Furniture">Furniture</option>
+          <option value="Tools">Tools</option>
+          <option value="Outdoors">Outdoors</option>
+          <option value="Electronics">Electronics</option>
+          <option value="Hardware">Hardware</option>
+          <option value="Beauty">Beauty</option>
+          <option value="Health">Health</option>
+          <option value="Cleaning">Cleaning</option>
+          <option value="Kitchen">Kitchen</option>
+        </select>
+      </div>
+
+      <!-- Location Input -->
+      <div class="filter-item">
+        <label for="locationInput">Your Location:</label>
+        <input type="text" id="locationInput" placeholder="e.g. Toronto" />
+      </div>
+
+      <!-- Search Section -->
+      <div class="filter-item search-box">
+        <input type="text" id="searchInput" placeholder="🔍 Search for anything..." />
+        <div class="buttons-row">
+          <button id="voiceSearchButton">🎙️ Voice Search</button>
+          <button id="randomSuggestButton">🔮 I'm Not Sure</button>
+        </div>
+      </div>
     </div>
 
-    <!-- Location Input -->
-    <div class="location-filter" style="margin-bottom: 20px; text-align: center;">
-      <label for="locationInput">Your Location:</label>
-      <input type="text" id="locationInput" placeholder="e.g. Toronto" />
-    </div>
-    
-    <!-- Search Section -->
-    <div class="search-section">
-      <input type="text" id="searchInput" placeholder="🔍 Search for anything..." />
-      <button id="voiceSearchButton">🎙️ Voice Search</button>
-      <button id="randomSuggestButton">🔮 I'm Not Sure</button>
-    </div>
-
-    <!-- Suggestions List -->
+    <!-- Suggestions -->
     <div id="suggestions" class="suggestions-section">
-      <!-- Suggested items will appear here -->
+      <!-- Suggestions will appear here -->
     </div>
 
-    <!-- SupplAi Assistant Response -->
-    <div id="supplai-assistant" style="margin: 30px auto 0; width: 80%; max-width: 600px; border: 1px solid #ccc; padding: 15px; border-radius: 10px; background-color: #f7f7f7; font-family: sans-serif;">
+    <!-- Assistant Message -->
+    <div id="supplai-assistant">
       <strong>SupplAi:</strong> 👋 Hi there! I'm your smart shopping assistant. Tell me what you need or just start typing!
     </div>
   </div>
