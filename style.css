@@ -1,68 +1,114 @@
-/* SupplAi Basic Styling */
-
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f5f7fa;
+/* Global Reset */
+* {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
   }
   
-  h1 {
-    color: #0055aa;
-    text-align: center;
-    margin-top: 50px;
-  }
-  
-  .button {
-    background-color: #0077cc;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 8px;
-    text-decoration: none;
-    display: inline-block;
-  }
-  /* SupplAi Layout Styling */
-
-.supplai-container {
-    max-width: 600px;
-    margin: 50px auto;
-    padding: 20px;
+  /* Base Styles */
+  body {
+    font-family: 'Inter', sans-serif;
     background-color: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    color: #222;
+    line-height: 1.6;
+    padding: 2rem;
+  }
+  
+  /* Header */
+  h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
     text-align: center;
+    color: #0d2b45; /* deep navy */
   }
   
-  .search-section input {
-    padding: 10px;
-    width: 70%;
-    margin-right: 10px;
-    font-size: 16px;
+  /* Search Area */
+  .search-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 2rem;
   }
   
-  .search-section button {
-    padding: 10px 15px;
-    margin-top: 10px;
-    margin-right: 5px;
-    font-size: 16px;
-    border-radius: 8px;
-    background-color: #0077cc;
-    color: white;
+  #searchInput,
+  #locationInput,
+  #categoryFilter {
+    padding: 0.75rem;
+    width: 300px;
+    margin: 0.5rem;
+    border: 2px solid #1d5d9b;
+    border-radius: 10px;
+    font-size: 1rem;
+  }
+  
+  /* Buttons */
+  button {
+    margin: 0.5rem;
+    padding: 0.7rem 1.2rem;
     border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    background-color: #e25c1d;
+    color: white;
     cursor: pointer;
+    transition: background-color 0.3s ease;
   }
   
-  .suggestions-section {
-    margin-top: 30px;
-    text-align: left;
+  button:hover {
+    background-color: #c14c15;
   }
+  
+  /* Suggestions */
+  #suggestions {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
   .suggestion-item {
-    padding: 8px;
-    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f8f9fa;
+    padding: 0.75rem 1rem;
+    margin: 0.5rem 0;
+    border-radius: 12px;
+    border-left: 4px solid #1d5d9b;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  }
+  
+  /* Heart icons */
+  .suggestion-item span:last-child {
+    font-size: 1.2rem;
     cursor: pointer;
   }
   
-  .suggestion-item:hover {
-    background-color: #f0f0f0;
+  /* Map styling */
+  #map {
+    width: 100%;
+    height: 400px;
+    border-radius: 10px;
+    margin-top: 2rem;
+    box-shadow: 0 0 8px rgba(13, 43, 69, 0.1);
   }
-    
+  
+  /* SupplAi response box */
+  #supplai-assistant {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    border: 1px solid #ccc;
+    background-color: #f0faff;
+    border-radius: 8px;
+    font-style: italic;
+  }
+  
+  /* Error messages */
+  .error-message {
+    color: #b00020;
+    background-color: #ffe5e5;
+    padding: 0.75rem;
+    margin-top: 1rem;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: bold;
+  }
+  
