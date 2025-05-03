@@ -57,31 +57,244 @@
         </div>
       </div>
     </div>
-
+<!-- SupplAi Chat Bubble Only (Messenger Style, Scrollable, Add-on Only) -->
+<div id="supplai-chat-container" style="max-width: 960px; margin: 2rem auto;">
+    <div id="chat-log" style="height: 300px; overflow-y: auto; display: flex; flex-direction: column; gap: 1rem; padding: 1rem; background: #f4f9ff; border-radius: 1.5rem; border: 1px solid #ccc;"></div>
+    <div style="display: flex; gap: 1rem; align-items: center; margin-top: 1rem;">
+      <input type="file" id="imageUpload" accept="image/*" />
+      <input type="text" id="gptInput" placeholder="Ask SupplAi something..." style="flex: 1; padding: 1.25rem; font-size: 1.25rem; border: 1px solid #ccc; border-radius: 2rem;" />
+    </div>
+  </div>
+  
+  <style>
+    .chat-bubble {
+      max-width: 75%;
+      padding: 1.25rem;
+      border-radius: 2rem;
+      font-size: 1.1rem;
+      line-height: 1.5;
+      word-wrap: break-word;
+    }
+    .user-bubble {
+      background: #003366;
+      color: white;
+      align-self: flex-end;
+      border-top-right-radius: 0;
+    }
+    .ai-bubble {
+      background: #ff6f00;
+      color: white;
+      align-self: flex-start;
+      border-top-left-radius: 0;
+    }
+    #chat-log img {
+      max-width: 100%;
+      height: auto;
+      margin-top: 1rem;
+      border-radius: 1rem;
+    }
+  </style>
+  
+  <script>
+  function appendMessage(content, isUser = false) {
+    const chatLog = document.getElementById('chat-log');
+    const div = document.createElement('div');
+    div.className = `chat-bubble ${isUser ? 'user-bubble' : 'ai-bubble'}`;
+    div.innerHTML = content;
+    chatLog.appendChild(div);
+    chatLog.scrollTo({ top: chatLog.scrollHeight, behavior: 'smooth' });
+  }
+  
+  function askSupplAi(prompt) {
+    if (!prompt.trim()) return;
+    appendMessage(prompt, true);
+    fetch("/.netlify/functions/supplai-gpt", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message: prompt })
+    })
+    .then(res => res.json())
+    .then(data => {
+      appendMessage(`<strong>SupplAi:</strong> ${data.reply}`);
+    })
+    .catch(err => {
+      console.error("GPT fetch failed:", err);
+    });
+  }
+  
+  document.getElementById('gptInput').addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') {
+      askSupplAi(this.value);
+      this.value = '';
+    }
+  });
+  
+  document.getElementById('imageUpload').addEventListener('change', function () {
+    const file = this.files[0];
+    if (file && file.type.startsWith('image/')) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        appendMessage(`<img src="${e.target.result}" />`, true);
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+  </script>
+    <script>
+  function appendMessage(content, isUser = false) {
+    const chatLog = document.getElementById('chat-log');
+    const div = document.createElement('div');
+    div.className = `chat-bubble ${isUser ? 'user-bubble' : 'ai-bubble'}`;
+    div.innerHTML = content;
+    chatLog.appendChild(div);
+    chatLog.scrollTo({ top: chatLog.scrollHeight, behavior: 'smooth' });
+  }
+  
+  function askSupplAi(prompt) {
+    if (!prompt.trim()) return;
+    appendMessage(prompt, true);
+    fetch("/.netlify/functions/supplai-gpt", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message: prompt })
+    })
+    .then(res => res.json())
+    .then(data => {
+      appendMessage(`<strong>SupplAi:</strong> ${data.reply}`);
+    })
+    .catch(err => {
+      console.error("GPT fetch failed:", err);
+    });
+  }
+  
+  document.getElementById('gptInput').addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') {
+      askSupplAi(this.value);
+      this.value = '';
+    }
+  });
+  
+  document.getElementById('imageUpload').addEventListener('change', function () {
+    const file = this.files[0];
+    if (file && file.type.startsWith('image/')) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        appendMessage(`<img src="${e.target.result}" />`, true);
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+  </script>
+  
     <!-- Suggestions -->
     <div id="suggestions" class="suggestions-section">
       <!-- Suggestions will appear here -->
     </div>
 
-    <!-- Assistant Message -->
-    <div id="supplai-chat-container" style="max-width: 960px; margin: 2rem auto;">
-        <div style="display: flex; gap: 1rem; align-items: center; margin-bottom: 1rem;">
-          <input type="file" id="imageUpload" accept="image/*" />
-          <input type="text" id="searchInput" placeholder="Ask SupplAi something..." style="flex: 1; padding: 1.25rem; font-size: 1.25rem; border: 1px solid #ccc; border-radius: 2rem;" />
-          
-        </div>
-        <div id="chat-log" style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2rem;"></div>
-        <div id="suggestions"></div>
-      </div>
-      
-      <strong>SupplAi:</strong> 👋 Hi there! I'm your smart shopping assistant. Tell me what you need or just start typing!
-    </div>
-  </div>
+   
+  </style>
+  
+  <script>
+  function appendMessage(content, isUser = false) {
+    const chatLog = document.getElementById('chat-log');
+    const div = document.createElement('div');
+    div.className = `chat-bubble ${isUser ? 'user-bubble' : 'ai-bubble'}`;
+    div.innerHTML = content;
+    chatLog.appendChild(div);
+    chatLog.scrollTo({ top: chatLog.scrollHeight, behavior: 'smooth' });
+  }
+  
+  function askSupplAi(prompt) {
+    if (!prompt.trim()) return;
+    appendMessage(prompt, true);
+    fetch("/.netlify/functions/supplai-gpt", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message: prompt })
+    })
+    .then(res => res.json())
+    .then(data => {
+      appendMessage(`<strong>SupplAi:</strong> ${data.reply}`);
+    })
+    .catch(err => {
+      console.error("GPT fetch failed:", err);
+    });
+  }
+  
+  document.getElementById('gptInput').addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') {
+      askSupplAi(this.value);
+      this.value = '';
+    }
+  });
+  
+  document.getElementById('imageUpload').addEventListener('change', function () {
+    const file = this.files[0];
+    if (file && file.type.startsWith('image/')) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        appendMessage(`<img src="${e.target.result}" />`, true);
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+  </script>
+  
 
   <!-- Map -->
   <div id="map" style="height: 400px; margin-top: 30px;"></div>
 
   <!-- JavaScript -->
   <script src="supplai.js"></script>
+  <!-- ✅ Insert this script just before the closing body tag -->
+<script>
+    function appendMessage(content, isUser = false) {
+      const chatLog = document.getElementById('chat-log');
+      const div = document.createElement('div');
+      div.className = `chat-bubble ${isUser ? 'user-bubble' : 'ai-bubble'}`;
+      div.innerHTML = content;
+      chatLog.appendChild(div);
+      chatLog.scrollTo({ top: chatLog.scrollHeight, behavior: 'smooth' });
+    }
+  
+    function askSupplAi(prompt) {
+      if (!prompt.trim()) return;
+      appendMessage(prompt, true);
+      fetch("/.netlify/functions/supplai-gpt", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: prompt })
+      })
+      .then(res => res.json())
+      .then(data => {
+        appendMessage(`<strong>SupplAi:</strong> ${data.reply}`);
+      })
+      .catch(err => {
+        console.error("GPT fetch failed:", err);
+      });
+    }
+  
+    document.getElementById('gptInput').addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') {
+        askSupplAi(this.value);
+        this.value = '';
+      }
+    });
+  
+    document.getElementById('imageUpload').addEventListener('change', function () {
+      const file = this.files[0];
+      if (file && file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          appendMessage(`<img src="${e.target.result}" />`, true);
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+  </script>
+  <!-- ✅ End of script -->
+  </body>
+  </html>
+  
 </body>
 </html>
