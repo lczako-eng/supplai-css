@@ -183,4 +183,41 @@ body {
   body.dark-mode #map {
     filter: grayscale(1) brightness(0.8);
   }
+  .chat-bubble {
+    max-width: 80%;
+    padding: 1.5rem;
+    border-radius: 2rem;
+    font-size: 1.25rem;
+    line-height: 1.6;
+    word-wrap: break-word;
+  }
+  .user-bubble {
+    background: #e0f7fa;
+    align-self: flex-end;
+    border-top-right-radius: 0;
+  }
+  .ai-bubble {
+    background: white;
+    border: 3px solid #007BFF;
+    align-self: flex-start;
+    border-top-left-radius: 0;
+  }
+  #chat-log img {
+    max-width: 100%;
+    height: auto;
+    margin-top: 1rem;
+    border-radius: 1rem;
+  }
+  button, input[type="text"] {
+    border-radius: 2rem;
+    padding: 1rem 1.5rem;
+    border: none;
+    font-size: 1rem;
+    transition: all 0.2s ease-in-out;
+  }
+  
+  button:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transform: translateY(-1px);
+  }
   

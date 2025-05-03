@@ -1,5 +1,15 @@
 // 🔗 Real GPT-4 AI Connection
-function askSupplAi(prompt) {
+function appendMessage(content, isUser = false) {
+    const chatLog = document.getElementById('chat-log');
+    const div = document.createElement('div');
+    div.className = `chat-bubble ${isUser ? 'user-bubble' : 'ai-bubble'}`;
+    div.innerHTML = content;
+    chatLog.appendChild(div);
+    chatLog.scrollTop = chatLog.scrollHeight;
+  }
+  
+  function askSupplAi(prompt) {
+    appendMessage(prompt, true);
     fetch("/.netlify/functions/supplai-gpt", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -7,13 +17,13 @@ function askSupplAi(prompt) {
     })
     .then(res => res.json())
     .then(data => {
-      const assistantBox = document.getElementById('supplai-assistant');
-      assistantBox.innerHTML = `<strong>SupplAi:</strong> ${data.reply}`;
+      appendMessage(`<strong>SupplAi:</strong> ${data.reply}`);
     })
     .catch(err => {
       console.error("GPT fetch failed:", err);
     });
   }
+  
   
   document.addEventListener('DOMContentLoaded', function () {
     console.log('✅ SupplAi script loaded');
