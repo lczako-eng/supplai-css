@@ -1,0 +1,23 @@
+{
+  "name": "supplai-css",
+  "version": "1.0.0",
+  "main": "supplai.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lczako-eng/supplai-css.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lczako-eng/supplai-css/issues"
+  },
+  "homepage": "https://github.com/lczako-eng/supplai-css#readme",
+  "description": "",
+  "dependencies": {
+    "openai": "^4.96.2"
+  }
+}
